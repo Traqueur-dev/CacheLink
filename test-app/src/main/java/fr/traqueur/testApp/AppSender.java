@@ -15,7 +15,7 @@ public class AppSender {
     public static void main(String[] args) throws InterruptedException {
         CacheFactory<String, Entreprise> factory =
                 new CacheFactory<>(new CacheConfiguration("localhost", 6379, null), String.class, Entreprise.class);
-        CacheMap<String, Entreprise> cache = factory.createCacheMap();
+        CacheMap<String, Entreprise> cache = factory.createCacheMap("entreprise");
 
         Person person1 = new Person("John", 25);
         Person person2 = new Person("Doe", 30);

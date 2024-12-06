@@ -9,7 +9,7 @@ public class AppReceiver {
     public static void main(String[] args) {
         CacheFactory<String, Entreprise> factory =
                 new CacheFactory<>(new CacheConfiguration("localhost", 6379, null), String.class, Entreprise.class);
-        CacheMap<String, Entreprise> cache = factory.createCacheMap();
+        CacheMap<String, Entreprise> cache = factory.createCacheMap("entreprise");
         System.out.println(cache.get("google"));
     }
 
