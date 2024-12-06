@@ -1,7 +1,7 @@
 package fr.traqueur.cachelink.impl;
 
+import com.google.gson.Gson;
 import fr.traqueur.cachelink.Cache;
-import fr.traqueur.cachelink.JsonSerializer;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.sync.RedisCommands;
 
@@ -13,10 +13,12 @@ public class MultiServerCache<V> implements Cache<V> {
 
     private final RedisCommands<String, String> redisCommands;
     private final Class<V> valueClass;
+    private final Gson gson;
 
-    public MultiServerCache(StatefulRedisConnection<String, String> connection, Class<V> valueClass) {
+    public MultiServerCache(StatefulRedisConnection<String, String> connection, Class<V> valueClass, Gson gson) {
         this.redisCommands = connection.sync();
         this.valueClass = valueClass;
+        this.gson = gson;
     }
 
     private Set<String> getKeys() {
@@ -27,7 +29,7 @@ public class MultiServerCache<V> implements Cache<V> {
     public V get(int i) {
         List<String> keys = new ArrayList<>(getKeys());
         if (i < keys.size()) {
-            return JsonSerializer.deserialize(redisCommands.get(keys.get(i)), valueClass);
+            return gson.fromJson(redisCommands.get(keys.get(i)), valueClass);
         }
         return null;
     }
@@ -68,7 +70,7 @@ public class MultiServerCache<V> implements Cache<V> {
     public boolean removeIf(Predicate<? super V> consumer) {
         Set<String> keys = getKeys();
         for (String key : keys) {
-            if (consumer.test(JsonSerializer.deserialize(redisCommands.get(key), valueClass))) {
+            if (consumer.test(gson.fromJson(redisCommands.get(key), valueClass))) {
                 redisCommands.del(key);
                 return true;
             }
@@ -92,7 +94,7 @@ public class MultiServerCache<V> implements Cache<V> {
     public void forEach(Consumer<V> consumer) {
         Set<String> keys = getKeys();
         for (String key : keys) {
-            consumer.accept(JsonSerializer.deserialize(redisCommands.get(key), valueClass));
+            consumer.accept(gson.fromJson(redisCommands.get(key), valueClass));
         }
     }
 }
