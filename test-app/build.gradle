@@ -1,0 +1,14 @@
+plugins {
+    id 'java'
+}
+
+group = 'fr.traqueur'
+version = '1.0.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation(rootProject)
+}

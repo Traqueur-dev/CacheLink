@@ -1,0 +1,24 @@
+plugins {
+    id 'java'
+}
+
+group = 'fr.traqueur'
+version = property('version') + (property('snapshot') ? '-SNAPSHOT' : '')
+
+repositories {
+    mavenCentral()
+
+}
+
+dependencies {
+
+    implementation 'io.lettuce:lettuce-core:6.5.1.RELEASE'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.18.2'
+
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
