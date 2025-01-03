@@ -7,13 +7,15 @@ version = property('version') + (property('snapshot') ? '-SNAPSHOT' : '')
 
 repositories {
     mavenCentral()
-
+    maven {
+        url = 'https://jitpack.io'
+    }
 }
 
 dependencies {
 
     implementation 'io.lettuce:lettuce-core:6.5.1.RELEASE'
-    implementation 'com.google.code.gson:gson:2.8.8'
+    implementation 'com.google.code.gson:gson:2.11.0'
 
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
