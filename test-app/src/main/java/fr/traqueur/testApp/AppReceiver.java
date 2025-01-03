@@ -10,7 +10,8 @@ public class AppReceiver {
 
     public static void main(String[] args) {
         CacheFactory.init(new CacheConfiguration("localhost", 6379, null));
-        CacheMap<String, Entreprise> cache = new CacheMap<>("entreprises", Serializer.STRING, EntrepriseSerializer.INSTANCE);
+        CacheMap<String, Entreprise> cache = new CacheMap<>("entreprises",
+                Serializer.STRING, EntrepriseSerializer.INSTANCE);
         System.out.println(cache.get("google"));
     }
 
